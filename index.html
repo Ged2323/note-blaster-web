@@ -39,6 +39,14 @@
     color:var(--muted);font-size:.85rem;text-align:center;padding:16px;overflow:hidden;
   }
   .media-slot img,.media-slot video{width:100%;height:100%;object-fit:contain;border-radius:16px;}
+  #screenshots .media-slot img{cursor:zoom-in;}
+  .lightbox{
+    position:fixed;inset:0;background:rgba(0,0,0,.85);
+    display:flex;align-items:center;justify-content:center;
+    padding:24px;cursor:zoom-out;z-index:100;
+  }
+  .lightbox[hidden]{display:none;}
+  .lightbox img{max-width:100%;max-height:100%;border-radius:8px;}
   ul.features{list-style:none;margin:0;padding:0;display:grid;gap:14px;}
   ul.features li{
     background:var(--card);border:1px solid var(--border);border-radius:12px;
@@ -94,5 +102,27 @@
       <p>Note Blaster turns learning the fretboard into something you actually want to play.</p>
     </footer>
   </div>
+
+  <div class="lightbox" id="lightbox" hidden>
+    <img id="lightbox-img" alt="">
+  </div>
+
+  <script>
+    var lightbox = document.getElementById('lightbox');
+    var lightboxImg = document.getElementById('lightbox-img');
+    document.querySelectorAll('#screenshots img').forEach(function(img){
+      img.addEventListener('click', function(){
+        lightboxImg.src = img.src;
+        lightbox.hidden = false;
+      });
+    });
+    lightbox.addEventListener('click', function(){
+      lightbox.hidden = true;
+      lightboxImg.src = '';
+    });
+    document.addEventListener('keydown', function(e){
+      if (e.key === 'Escape') { lightbox.hidden = true; lightboxImg.src = ''; }
+    });
+  </script>
 </body>
 </html>
